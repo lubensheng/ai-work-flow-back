@@ -7,14 +7,14 @@ services:
     depends_on:
       - mysql
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/lbs
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ai-business
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 123456
+      SPRING_DATASOURCE_PASSWORD: Lbs990129..
 
   mysql:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: lbs
+      MYSQL_DATABASE: ai-business
     ports:
       - "3306:3306"
