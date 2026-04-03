@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
       if (user == null) {
         this.userMapper.insertUserInfo(userInfo);
       }
-      return ReturnMessageUtils.<UserDto>getResponse(HttpCode.SUCCESS_CODE.getCode(), "注册成功", userInfo);
+      return ReturnMessageUtils.getResponse(HttpCode.SUCCESS_CODE.getCode(), "注册成功", userInfo);
     } catch (Exception e) {
       return ReturnMessageUtils.getResponse(HttpCode.ERROR_CODE.getCode(), e.getMessage(), userInfo);
     }
