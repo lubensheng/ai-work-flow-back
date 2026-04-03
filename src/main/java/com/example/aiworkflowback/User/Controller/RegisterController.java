@@ -1,6 +1,12 @@
 package com.example.aiworkflowback.User.Controller;
 
+import com.example.aiworkflowback.Message;
+import com.example.aiworkflowback.User.Model.Dto.UserDto;
+import com.example.aiworkflowback.User.Model.Entity.UserEntity;
+import com.example.aiworkflowback.User.Service.impl.UserServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,8 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/role")
 public class RegisterController {
 
+  @Resource
+  UserServiceImpl userService;
+
   @PostMapping("/regiter")
-  public String register() {
-    return "注册成功";
+  public Message<UserDto> register(@RequestBody UserDto user) {
+    System.out.println();
+    UserEntity userInfo = new UserEntity();
+    userInfo.setPassword(user.getPassword());
+    userInfo.setUserName(user.getUserName());
+    userInfo.setCreateBy(user.getUserName());
+    return this.userService.register(user);
   }
 }

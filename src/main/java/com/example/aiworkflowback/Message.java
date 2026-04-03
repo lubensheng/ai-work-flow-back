@@ -1,37 +1,16 @@
 package com.example.aiworkflowback;
 
+import lombok.Data;
+
+@Data
 public class Message<T> {
-  private String code;
+  private Integer code;
   private String message;
   private T data;
 
-  public Message(String code, String message, T data) {
+  public Message(Integer code, String message, T data) {
     this.code = code;
     this.message = message;
-    this.data = data;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public String getCode() {
-    return code;
-  }
-
-  public T getData() {
-    return data;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public void setData(T data) {
     this.data = data;
   }
 }
