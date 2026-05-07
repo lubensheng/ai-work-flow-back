@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.aiworkflowback.Flow.Mapper.FlowInfoMapper">
+	<insert id="insertFlowData">
+		INSERT INTO flow_info (
+			appName,
+			appDesc,
+			appType,
+			edgeList,
+			nodeList
+		) VALUES (
+			#{appName},
+			#{appDesc},
+			#{appType},
+			#{edgeList},
+			#{nodeList}
+		)
+	</insert>
+	<select
+			id="selectFlowInfoByFlowName"
+			resultType="com.example.aiworkflowback.Flow.Modal.Entity.FlowEntity"
+	>
+		SELECT * FROM flow_info WHERE appName = #{flowName}
+	</select>
+</mapper>
