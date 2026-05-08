@@ -24,4 +24,7 @@
 	>
 		SELECT * FROM flow_info WHERE appName = #{flowName}
 	</select>
+	<select id="selectFlowInfoByPagination" resultType="com.example.aiworkflowback.Flow.Modal.Entity.FlowEntity" >
+		SELECT * FROM flow_info limit #{offset}, #{pageSize}
+	</select>
 </mapper>

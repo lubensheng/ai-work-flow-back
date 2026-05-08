@@ -4,6 +4,7 @@ package com.example.aiworkflowback.Flow.Controller;
 import com.example.aiworkflowback.Flow.Modal.Dto.QueryFlow;
 import com.example.aiworkflowback.Flow.Modal.Dto.ResponseDto;
 import com.example.aiworkflowback.Flow.Modal.Dto.SaveFlowDto;
+import com.example.aiworkflowback.Flow.Modal.Entity.FlowEntity;
 import com.example.aiworkflowback.Flow.Services.impl.FlowSaveServiceImpl;
 import com.example.aiworkflowback.Message;
 
@@ -22,13 +23,12 @@ public class FlowInfo {
 
   @PostMapping("/save")
   public Message<ResponseDto> saveFlowInfo(@RequestBody SaveFlowDto flowData) {
-
     return flowSaveService.saveFlowInfo(flowData);
   }
 
   @PostMapping("/queryFlowInfo")
-  public void queryFlowInfo(@RequestBody QueryFlow queryFlow) {
-
+  public Message<FlowEntity> queryFlowInfo(@RequestBody QueryFlow queryFlow) {
+    return flowSaveService.queryFlowInfo(queryFlow);
   }
 
 }
