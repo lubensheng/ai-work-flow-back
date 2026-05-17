@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  redis:
+    # 使用稳定的 Redis 7 版本
+    image: redis:7.2
+    container_name: redis-server
+    # 容器退出后自动重启
+    restart: unless-stopped
+    # 使用 host 网络模式，消除 NAT 转发带来的网络性能损耗
+    network_mode: "host"
+    # 挂载配置文件和数据目录
+    volumes:
+      - ./data:/data
+    # 指定使用配置文件启动
+    command: redis-server /usr/local/etc/redis/redis.conf

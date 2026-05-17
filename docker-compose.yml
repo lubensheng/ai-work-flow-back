@@ -9,12 +9,18 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ai-business
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: Lbs990129..
+      SPRING_DATASOURCE_PASSWORD: Lbs990129...
 
   mysql:
     image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: ai-business
+    container_name: mysql
+    restart: always
     ports:
       - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Lbs990129...
+      TZ: Asia/Shanghai
+      LANG: C.UTF-8
+    volumes:
+      - /root/mysqlData:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password

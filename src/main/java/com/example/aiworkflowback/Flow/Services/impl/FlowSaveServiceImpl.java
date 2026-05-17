@@ -11,7 +11,9 @@ import com.example.aiworkflowback.Message;
 import com.example.aiworkflowback.enums.HttpCode;
 import com.example.aiworkflowback.utils.ReturnMessageUtils;
 import jakarta.annotation.Resource;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FlowSaveServiceImpl implements FlowSaveService {
 
   @Resource
