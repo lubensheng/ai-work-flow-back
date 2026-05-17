@@ -7,7 +7,7 @@
         id="selectUserByUserName"
         resultType="com.example.aiworkflowback.User.Model.Entity.UserEntity"
     >
-        select * from user_table where userName = #{userName} and password = #{password}
+        select * from user_table where userName = #{userName}
     </select>
     <insert id="insertUserInfo">
         INSERT INTO user_table (

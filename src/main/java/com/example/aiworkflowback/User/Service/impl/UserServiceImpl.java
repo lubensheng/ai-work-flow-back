@@ -10,6 +10,8 @@ import com.example.aiworkflowback.enums.HttpCode;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -22,6 +24,8 @@ public class UserServiceImpl implements UserService {
       UserEntity user = this.userMapper.selectUserByUserName(userInfo.getUserName(), userInfo.getPassword());
       if (user == null) {
         this.userMapper.insertUserInfo(userInfo);
+      } else if (!Objects.equals(user.password, userInfo.getPassword())) {
+        return ReturnMessageUtils.getResponse(HttpCode.ERROR_CODE.getCode(), "密码错误", userInfo);
       }
       return ReturnMessageUtils.getResponse(HttpCode.SUCCESS_CODE.getCode(), "注册成功", userInfo);
     } catch (Exception e) {
