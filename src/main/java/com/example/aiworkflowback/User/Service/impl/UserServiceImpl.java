@@ -48,4 +48,13 @@ public class UserServiceImpl implements UserService {
 
     }
   }
+
+  @Override
+  public UserEntity selectUserInfoByUserName(String useName) {
+    try {
+      return this.userMapper.selectUserByUserName(useName);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 }

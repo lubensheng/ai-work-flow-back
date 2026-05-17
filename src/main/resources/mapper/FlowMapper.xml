@@ -5,17 +5,25 @@
 <mapper namespace="com.example.aiworkflowback.Flow.Mapper.FlowInfoMapper">
 	<insert id="insertFlowData">
 		INSERT INTO flow_info (
+			userId,
+			userName,
+			flowConfigId,
+			flowStatus,
 			appName,
 			appDesc,
 			appType,
-			edgeList,
-			nodeList
+			createTime,
+			updateTime
 		) VALUES (
+			#{userId},
+			#{userName},
+			#{flowConfigId},
+			#{flowStatus},
 			#{appName},
 			#{appDesc},
 			#{appType},
-			#{edgeList},
-			#{nodeList}
+			#{createTime},
+			#{updateTime}
 		)
 	</insert>
 	<select

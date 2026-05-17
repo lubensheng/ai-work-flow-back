@@ -19,4 +19,12 @@ public class SaveFlowDto {
 
   @NotNull(message = "连接线不能为空")
   public NodeItem[] nodeList;
+
+  // 等jwt 认证昨晚了这个需要废弃的
+  @NotNull(message = "用户名不能为空")
+  public String userName;
+
+  // '流程状态 1 草稿， 2发布'
+  @NotNull(message = "流程状态不能为空")
+  public Integer flowStatus;
 }
