@@ -5,4 +5,5 @@ import com.example.aiworkflowback.User.Model.Dto.UserDto;
 
 public interface UserService {
   Message<UserDto> register(UserDto userInfo);
+  Message<UserDto> updateUserInfo(UserDto userInfo);
 }

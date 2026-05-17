@@ -19,11 +19,11 @@ public class RegisterController {
 
   @PostMapping("/regiter")
   public Message<UserDto> register(@RequestBody UserDto user) {
-    System.out.println();
-    UserEntity userInfo = new UserEntity();
-    userInfo.setPassword(user.getPassword());
-    userInfo.setUserName(user.getUserName());
-    userInfo.setCreateBy(user.getUserName());
     return this.userService.register(user);
+  }
+
+  @PostMapping("/updateUserInfo")
+  public Message<UserDto> updateUserInfo(@RequestBody UserDto user) {
+    return this.userService.updateUserInfo(user);
   }
 }

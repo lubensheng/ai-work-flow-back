@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserMapper extends BaseMapper<UserEntity> {
-  UserEntity selectUserByUserName(@Param("userName") String userName, @Param("password") String password);
+  UserEntity selectUserByUserName(@Param("userName") String userName);
+  void updateUserInfo(UserDto user);
   void insertUserInfo(UserDto user);
 }
