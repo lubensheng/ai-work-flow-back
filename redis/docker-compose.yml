@@ -1,16 +1,23 @@
+version: '3.8'
+
 services:
   redis:
     image: redis:7.2
-    container_name: redis-server
-    restart: unless-stopped
-    command: redis-server --appendonly yes --requirepass Lbs990129...
+    container_name: redis_no_persistence
     ports:
       - "6379:6379"
-    volumes:
-      - ./redis-data:/data
-    networks:
-      - shared-network
-
-networks:
-  shared-network:
-    driver: bridge
+    command:
+      - "redis-server"
+      - "--save"                # 禁用 RDB 持久化
+      - ""
+      - "--appendonly"          # 禁用 AOF 持久化
+      - "no"
+      - "--user"                # 禁用默认用户（无密码）
+      - "default"
+      - "off"
+      - "--user"                # 创建自定义用户
+      - "root"
+      - "on"
+      - ">lbs990129"           # 设置用户密码
+      - "~*"                    # 允许访问所有键
+      - "+@all"                 # 授予所有命令权限

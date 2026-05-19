@@ -1,6 +1,7 @@
 package com.example.aiworkflowback.User.Service.impl;
 
 import com.example.aiworkflowback.Message;
+import com.example.aiworkflowback.utils.JwtUtil;
 import com.example.aiworkflowback.utils.ReturnMessageUtils;
 import com.example.aiworkflowback.User.Mapper.UserMapper;
 import com.example.aiworkflowback.User.Model.Dto.UserDto;
@@ -8,13 +9,19 @@ import com.example.aiworkflowback.User.Model.Entity.UserEntity;
 import com.example.aiworkflowback.User.Service.UserService;
 import com.example.aiworkflowback.enums.HttpCode;
 import jakarta.annotation.Resource;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements UserService {
+  private final StringRedisTemplate stringRedisTemplate;
 
+  public UserServiceImpl(StringRedisTemplate stringRedisTemplate) {
+    this.stringRedisTemplate = stringRedisTemplate;
+  }
   @Resource
   private UserMapper userMapper;
 
@@ -22,11 +29,18 @@ public class UserServiceImpl implements UserService {
   public Message<UserDto> register(UserDto userInfo) {
     try {
       UserEntity user = this.userMapper.selectUserByUserName(userInfo.getUserName());
+      String token = JwtUtil.generateToken(userInfo.getUserName());
+
       if (user == null) {
         this.userMapper.insertUserInfo(userInfo);
       } else if (!Objects.equals(user.password, userInfo.getPassword())) {
         return ReturnMessageUtils.getResponse(HttpCode.ERROR_CODE.getCode(), "密码错误", userInfo);
       }
+      if (Boolean.parseBoolean(stringRedisTemplate.opsForValue().get(userInfo.getUserName()))) {
+        stringRedisTemplate.delete(userInfo.getUserName());
+      }
+      stringRedisTemplate.opsForValue().set(userInfo.getUserName(), token, 30, TimeUnit.MINUTES);
+      userInfo.setToken(token);
       return ReturnMessageUtils.getResponse(HttpCode.SUCCESS_CODE.getCode(), "注册成功", userInfo);
     } catch (Exception e) {
       return ReturnMessageUtils.getResponse(HttpCode.ERROR_CODE.getCode(), e.getMessage(), userInfo);

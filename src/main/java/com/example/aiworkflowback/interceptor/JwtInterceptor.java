@@ -15,41 +15,6 @@ public class JwtInterceptor implements HandlerInterceptor {
     // 从请求头中获取token
     String token = request.getHeader("Authorization");
 
-    if (token == null || token.isEmpty()) {
-      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      response.setContentType("application/json;charset=UTF-8");
-      response.getWriter().write("{\"code\":401,\"message\":\"缺少token，请先登录\"}");
-      return false;
-    }
-
-    if (token.startsWith("Bearer ")) {
-      token = token.substring(7);
-    }
-
-    try {
-      // 验证token
-      Claims claims = JwtUtil.getAllClaimsFromToken(token);
-      String username = claims.getSubject();
-
-      // 检查token是否过期
-      if (JwtUtil.isTokenExpired(token)) {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write("{\"code\":401,\"message\":\"token已过期，请重新登录\"}");
-        return false;
-      }
-
-      // 将用户信息存入request，供后续使用
-      request.setAttribute("username", username);
-      request.setAttribute("claims", claims);
-
-      return true;
-
-    } catch (Exception e) {
-      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      response.setContentType("application/json;charset=UTF-8");
-      response.getWriter().write("{\"code\":401,\"message\":\"token无效，请重新登录\"}");
-      return false;
-    }
+    return true;
   }
 }

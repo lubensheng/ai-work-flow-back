@@ -14,7 +14,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-  public static final String SECRET_KEY = "aiworkflowusersecretkey123456";
+  public static final String SECRET_KEY = "aiworkflowUserSecretKey1234567890ABCDEF";
   public static final Long EXPIRATION_TIME = (long) (1000 * 60 * 60 * 24);
 
   private static SecretKey getSingerKey() {
