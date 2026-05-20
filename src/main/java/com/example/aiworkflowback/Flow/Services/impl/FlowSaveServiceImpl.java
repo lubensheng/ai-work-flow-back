@@ -84,4 +84,13 @@ public class FlowSaveServiceImpl implements FlowSaveService {
       return ReturnMessageUtils.getResponse(HttpCode.ERROR_CODE.getCode(), e.getMessage(), null);
     }
   }
+
+  @Override
+  public FlowEntity queryFlowInfoById(String flowId) {
+    try {
+      return this.flowInfoMapper.selectFlowInfoByFlowId(flowId);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 }

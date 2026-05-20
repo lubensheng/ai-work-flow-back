@@ -9,4 +9,5 @@ import com.example.aiworkflowback.Message;
 public interface FlowSaveService {
   Message<ResponseDto> saveFlowInfo(SaveFlowDto flowData);
   Message<FlowEntity> queryFlowInfo(QueryFlow queryInfo);
+  FlowEntity queryFlowInfoById(String flowId);
 }
