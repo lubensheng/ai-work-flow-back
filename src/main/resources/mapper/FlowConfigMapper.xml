@@ -18,4 +18,7 @@
 			#{updateTime}
 		)
 	</insert>
+	<select id="selectByFlowConfigId" resultType="com.example.aiworkflowback.Flow.Modal.Entity.FlowConfigEntity">
+		SELECT * FROM flow_config WHERE flowConfigId = #{flowConfigId}
+	</select>
 </mapper>
