@@ -36,6 +36,6 @@
 		SELECT * FROM flow_info limit #{offset}, #{pageSize}
 	</select>
 	<select id="selectFlowInfoByFlowId" resultType="com.example.aiworkflowback.Flow.Modal.Entity.FlowEntity">
-		SELECT * FORM flow_info WHERE id = #{flowId}
+		SELECT * FROM flow_info WHERE id = #{flowId}
 	</select>
 </mapper>

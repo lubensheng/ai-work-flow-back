@@ -3,5 +3,6 @@ package com.example.aiworkflowback.Flow.Modal.Dto;
 import lombok.Data;
 
 @Data
-public class NodeItem {
+public class ChatMessage {
+  private String content;
 }

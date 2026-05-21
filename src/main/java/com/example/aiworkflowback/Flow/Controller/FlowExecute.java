@@ -1,5 +1,6 @@
 package com.example.aiworkflowback.Flow.Controller;
 
+import com.example.aiworkflowback.Flow.FlowExecutor.FlowRun;
 import com.example.aiworkflowback.Flow.Modal.Entity.FlowConfigEntity;
 import com.example.aiworkflowback.Flow.Modal.Entity.FlowEntity;
 import com.example.aiworkflowback.Flow.Services.impl.FlowConfigServiceImpl;
@@ -20,12 +21,17 @@ public class FlowExecute {
   @Resource
   FlowConfigServiceImpl flowConfigService;
 
+  @Resource
+  FlowRun flowRun;
+
   @PostMapping("/executeFlow/{flowId}")
   public void executeFlow(@PathVariable String flowId) {
     FlowEntity flow = this.flowSaveService.queryFlowInfoById(flowId);
     if (flow != null) {
       Message<FlowConfigEntity> flowConfigEntityMessage = this.flowConfigService.queryFlowConfigInfo(String.valueOf(flow.flowConfigId));
       FlowConfigEntity flowConfig = flowConfigEntityMessage.getData();
+
+
     }
   }
 }

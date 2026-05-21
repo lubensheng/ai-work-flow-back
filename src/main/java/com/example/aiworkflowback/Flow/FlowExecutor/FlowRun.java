@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Run {
+public class FlowRun {
 
   @Autowired
   Core flowExecutorCore;
 
-  public void run(SaveFlowDto flowInfo) {
-    EdgeItem[] edgeList = flowInfo.edgeList;
-    NodeItem[] nodeList = flowInfo.nodeList;
+  public void run(FlowExeInstantParams flowInfo) {
+    EdgeItem[] edgeList = flowInfo.getEdgeList();
+    NodeItem[] nodeList = flowInfo.getNodeList();
 
   }
 }
