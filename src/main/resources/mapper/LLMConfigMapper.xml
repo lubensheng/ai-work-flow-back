@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.aiworkflowback.LlmConfig.Mapper.LLMConfigMapper">
+	<insert id="inertValues">
+		INSERT INTO llm_config (
+			modalType,
+			apiKey
+		) VALUES (
+			#{modalType},
+			#{apiKey}
+		)
+	</insert>
+	<select id="selectAll">
+		SELECT * FROM llm_config
+	</select>
+	<delete id="deleteById">
+		DELETE FROM llm_config WHERE id = #{id}
+	</delete>
+	<update id="updateValue">
+		UPDATE llm_config SET modalType = #{modalType}, apiKey = #{apiKey} WHERE id = #{id}
+	</update>
+</mapper>
