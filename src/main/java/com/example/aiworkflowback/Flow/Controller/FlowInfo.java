@@ -3,6 +3,7 @@ package com.example.aiworkflowback.Flow.Controller;
 
 import com.example.aiworkflowback.Flow.Modal.Dto.QueryFlow;
 import com.example.aiworkflowback.Flow.Modal.Dto.ResponseDto;
+import com.example.aiworkflowback.Flow.Modal.Dto.ReturnFlowInfo;
 import com.example.aiworkflowback.Flow.Modal.Dto.SaveFlowDto;
 import com.example.aiworkflowback.Flow.Modal.Entity.FlowConfigEntity;
 import com.example.aiworkflowback.Flow.Modal.Entity.FlowEntity;
@@ -29,7 +30,7 @@ public class FlowInfo {
   }
 
   @PostMapping("/queryFlowInfo")
-  public Message<FlowEntity[]> queryFlowInfo(@RequestBody QueryFlow queryFlow) {
+  public Message<ReturnFlowInfo> queryFlowInfo(@RequestBody QueryFlow queryFlow) {
     return flowSaveService.queryFlowInfo(queryFlow);
   }
 

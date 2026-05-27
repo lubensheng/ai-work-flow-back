@@ -7,4 +7,5 @@ import com.example.aiworkflowback.Message;
 public interface FlowConfigService {
   void saveFlowConfig(FlowConfigEntity value);
   Message<FlowConfigEntity> queryFlowConfigInfo(String flowConfigId);
+
 }

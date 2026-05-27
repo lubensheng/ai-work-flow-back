@@ -44,4 +44,12 @@
 	<select id="selectFlowInfoByFlowId" resultType="com.example.aiworkflowback.Flow.Modal.Entity.FlowEntity">
 		SELECT * FROM flow_info WHERE id = #{flowId}
 	</select>
+	<select id="selectFlowTotal" resultType="int">
+		SELECT COUNT(*) FROM flow_info
+		<where>
+			<if test="userName != null and userName != ''">
+				AND userName = #{userName}
+			</if>
+		</where>
+	</select>
 </mapper>

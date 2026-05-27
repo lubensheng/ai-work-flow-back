@@ -7,4 +7,5 @@ import org.apache.ibatis.annotations.Param;
 public interface FlowConfigMapper extends BaseMapper<FlowConfigEntity> {
   void insertValue(FlowConfigEntity flowConfig);
   FlowConfigEntity selectByFlowConfigId(@Param("flowConfigId") String flowConfigId);
+
 }

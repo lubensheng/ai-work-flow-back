@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.example.aiworkflowback.Flow.Mapper.FlowInfoMapper;
 import com.example.aiworkflowback.Flow.Modal.Dto.QueryFlow;
 import com.example.aiworkflowback.Flow.Modal.Dto.ResponseDto;
+import com.example.aiworkflowback.Flow.Modal.Dto.ReturnFlowInfo;
 import com.example.aiworkflowback.Flow.Modal.Dto.SaveFlowDto;
 import com.example.aiworkflowback.Flow.Modal.Entity.FlowConfigEntity;
 import com.example.aiworkflowback.Flow.Modal.Entity.FlowEntity;
@@ -43,8 +44,8 @@ public class FlowSaveServiceImpl implements FlowSaveService {
 
     FlowConfigEntity flowConfig = new FlowConfigEntity();
     flowConfig.setFlowConfigId(SnowIdUtil.nextId());
-    flowConfig.setNodeList(JSON.toJSONString(flowData.getEdgeList()));
-    flowConfig.setEdgeList(JSON.toJSONString(flowData.getNodeList()));
+    flowConfig.setNodeList(JSON.toJSONString(flowData.getNodeList()));
+    flowConfig.setEdgeList(JSON.toJSONString(flowData.getEdgeList()));
     flowConfig.setCreateTime(currentTime);
     flowConfig.setUpdateTime(currentTime);
 
@@ -74,11 +75,15 @@ public class FlowSaveServiceImpl implements FlowSaveService {
   }
 
   @Override
-  public Message<FlowEntity[]> queryFlowInfo(QueryFlow queryInfo) {
+  public Message<ReturnFlowInfo> queryFlowInfo(QueryFlow queryInfo) {
     queryInfo.offset =(queryInfo.pageIndex - 1) * queryInfo.pageSize;
     try {
       FlowEntity[] r = flowInfoMapper.selectFlowInfoByPagination(queryInfo);
-      return ReturnMessageUtils.getResponse(HttpCode.SUCCESS_CODE.getCode(), "success", r);
+      int total = flowInfoMapper.selectFlowTotal(queryInfo.getUserName());
+      ReturnFlowInfo r1 = new ReturnFlowInfo();
+      r1.setResultData(r);
+      r1.total = total;
+      return ReturnMessageUtils.getResponse(HttpCode.SUCCESS_CODE.getCode(), "success", r1);
     } catch (Exception e) {
       return ReturnMessageUtils.getResponse(HttpCode.ERROR_CODE.getCode(), e.getMessage(), null);
     }
@@ -91,5 +96,10 @@ public class FlowSaveServiceImpl implements FlowSaveService {
     } catch (Exception e) {
       return null;
     }
+  }
+
+  @Override
+  public int selectFlowTotal(String userName) {
+    return 0;
   }
 }
