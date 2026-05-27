@@ -1,5 +1,6 @@
 package com.example.aiworkflowback.Flow.Modal.Dto;
 
+import com.example.aiworkflowback.LlmConfig.Modal.Entity.LLMConfig;
 import lombok.Data;
 
 @Data
@@ -8,4 +9,5 @@ public class NodeConfig {
   public NodeField[] fields;
   // 条件节点的条件配置
   public ConditionItem[] conditions;
+  public LLMConfig llmApiConfig;
 }
