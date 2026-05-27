@@ -33,7 +33,13 @@
 		SELECT * FROM flow_info WHERE appName = #{flowName}
 	</select>
 	<select id="selectFlowInfoByPagination" resultType="com.example.aiworkflowback.Flow.Modal.Entity.FlowEntity" >
-		SELECT * FROM flow_info limit #{offset}, #{pageSize}
+		SELECT * FROM flow_info
+			<where>
+				<if test="userName  != null and userName  != ''">
+					AND userName = #{userName}
+				</if>
+			</where>
+		limit #{offset}, #{pageSize}
 	</select>
 	<select id="selectFlowInfoByFlowId" resultType="com.example.aiworkflowback.Flow.Modal.Entity.FlowEntity">
 		SELECT * FROM flow_info WHERE id = #{flowId}

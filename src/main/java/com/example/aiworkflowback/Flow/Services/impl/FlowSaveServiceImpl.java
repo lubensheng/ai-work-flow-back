@@ -74,12 +74,11 @@ public class FlowSaveServiceImpl implements FlowSaveService {
   }
 
   @Override
-  public Message<FlowEntity> queryFlowInfo(QueryFlow queryInfo) {
-    queryInfo.offset =( queryInfo.pageIndex - 1) * queryInfo.pageSize;
+  public Message<FlowEntity[]> queryFlowInfo(QueryFlow queryInfo) {
+    queryInfo.offset =(queryInfo.pageIndex - 1) * queryInfo.pageSize;
     try {
-      FlowEntity r = flowInfoMapper.selectFlowInfoByPagination(queryInfo);
-      return ReturnMessageUtils.getResponse(HttpCode.SUCCESS_CODE.getCode(), "新增成功", r);
-
+      FlowEntity[] r = flowInfoMapper.selectFlowInfoByPagination(queryInfo);
+      return ReturnMessageUtils.getResponse(HttpCode.SUCCESS_CODE.getCode(), "success", r);
     } catch (Exception e) {
       return ReturnMessageUtils.getResponse(HttpCode.ERROR_CODE.getCode(), e.getMessage(), null);
     }

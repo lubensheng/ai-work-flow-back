@@ -8,4 +8,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class QueryFlow extends Pagination {
   public int offset;
+  public String userName;
 }

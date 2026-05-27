@@ -8,6 +8,6 @@ import org.apache.ibatis.annotations.Param;
 public interface FlowInfoMapper extends BaseMapper<FlowEntity> {
   void insertFlowData(FlowEntity flowIfo);
   FlowEntity selectFlowInfoByFlowName(@Param("flowName") String flowName);
-  FlowEntity selectFlowInfoByPagination(QueryFlow queryInfo);
+  FlowEntity[] selectFlowInfoByPagination(QueryFlow queryInfo);
   FlowEntity selectFlowInfoByFlowId(@Param("flowId") String flowId);
 }
