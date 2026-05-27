@@ -18,6 +18,7 @@ import com.example.aiworkflowback.utils.SnowIdUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.time.LocalDateTime;
 
@@ -69,6 +70,7 @@ public class FlowSaveServiceImpl implements FlowSaveService {
       this.flowInfoMapper.insertFlowData(flowInfo);
       return ReturnMessageUtils.getResponse(HttpCode.SUCCESS_CODE.getCode(), "success", null);
     } catch (Exception e) {
+      TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
       return ReturnMessageUtils.getResponse(HttpCode.ERROR_CODE.getCode(), e.getMessage(), null);
     }
 
