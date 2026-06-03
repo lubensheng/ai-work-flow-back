@@ -41,7 +41,7 @@ public class FlowExecute {
   @PostMapping(value = "/executeFlow/{flowId}", produces = "text/event-stream;charset=UTF-8")
   public SseEmitter executeFlow(@PathVariable String flowId) {
     SseEmitter emitter = new SseEmitter(0L);
-    new Thread(() -> {
+    pool.execute(() -> {
       try {
         FlowEntity flow = this.flowSaveService.queryFlowInfoById(flowId);
         if (flow != null) {
@@ -57,7 +57,7 @@ public class FlowExecute {
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
-    }).start();
+    });
     emitter.onCompletion(emitter::complete);
     emitter.onError(e -> emitter.complete());
     emitter.onTimeout(emitter::complete);
