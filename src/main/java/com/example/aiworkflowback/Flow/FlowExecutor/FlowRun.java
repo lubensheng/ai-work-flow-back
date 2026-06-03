@@ -6,9 +6,12 @@ import com.example.aiworkflowback.Flow.expection.NodeFindException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Component
 public class FlowRun {
-
+  private final ExecutorService pool = Executors.newCachedThreadPool();
   @Autowired
   Core flowExecutorCore;
 
