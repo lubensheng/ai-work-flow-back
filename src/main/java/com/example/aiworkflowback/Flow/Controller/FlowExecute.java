@@ -17,9 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.concurrent.*;
+
 @RestController
 @RequestMapping("/flowExecute")
 public class FlowExecute {
+  private final ExecutorService pool = new ThreadPoolExecutor(5,
+      10,
+      60L, TimeUnit.SECONDS,
+      new ArrayBlockingQueue<>(100),
+      Executors.defaultThreadFactory(),
+      new ThreadPoolExecutor.AbortPolicy()
+  );
   @Resource
   FlowSaveServiceImpl flowSaveService;
 
