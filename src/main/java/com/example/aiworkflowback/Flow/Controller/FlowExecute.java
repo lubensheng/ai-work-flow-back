@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.*;
 
-@RestController
+@RestController()
 @RequestMapping("/flowExecute")
 public class FlowExecute {
   private final ExecutorService pool = new ThreadPoolExecutor(5,
@@ -50,11 +52,18 @@ public class FlowExecute {
           FlowExeInstantParams p = new FlowExeInstantParams();
           p.setAppName(flow.getAppName());
           p.setAppType(flow.getAppType());
-          p.setEdgeList((EdgeItem[]) JSON.toJSON(flowConfig.getEdgeList()));
-          p.setNodeList((NodeItem[]) JSON.toJSON(flowConfig.getNodeList()));
-          this.flowRun.run(p);
+          List<EdgeItem> edgeList = JSON.parseArray(flowConfig.getEdgeList(), EdgeItem.class);
+          p.setEdgeList(edgeList.toArray(EdgeItem[]::new));
+          List<NodeItem> nodeItems = JSON.parseArray(flowConfig.getNodeList(), NodeItem.class);
+          p.setNodeList(nodeItems.toArray(NodeItem[]::new));
+          FlowExecute.this.flowRun.run(p, emitter);
         }
       } catch (Exception e) {
+        try {
+          emitter.send(SseEmitter.event().name("flow-execute").data(e.getMessage()));
+        } catch (IOException ex) {
+          throw new RuntimeException(ex);
+        }
         throw new RuntimeException(e);
       }
     });

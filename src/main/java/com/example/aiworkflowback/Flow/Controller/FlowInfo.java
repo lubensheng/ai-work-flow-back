@@ -30,7 +30,7 @@ public class FlowInfo {
   }
 
   @PostMapping("/queryFlowInfo")
-  public Message<ReturnFlowInfo> queryFlowInfo(@RequestBody QueryFlow queryFlow) {
+  public Message<ReturnFlowInfo> queryFlowInfo(@RequestBody() QueryFlow queryFlow) {
     return flowSaveService.queryFlowInfo(queryFlow);
   }
 
