@@ -17,8 +17,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -27,11 +25,10 @@ public class FlowRun {
       .connectTimeout(60, TimeUnit.SECONDS)
       .readTimeout(0, TimeUnit.SECONDS) // SSE长连接不设读超时
       .build();
-  private final ExecutorService pool = Executors.newCachedThreadPool();
   @Autowired
   Core flowExecutorCore;
 
-  public void run(FlowExeInstantParams flowInfo, SseEmitter emitter) throws NodeFindException, IOException, InterruptedException {
+  public void run(FlowExeInstantParams flowInfo, SseEmitter emitter, String content) throws NodeFindException, IOException, InterruptedException {
     EdgeItem[] edgeList = flowInfo.getEdgeList();
     NodeItem[] nodeList = flowInfo.getNodeList();
     NodeItem currentRunStartNode = flowExecutorCore.getStartNode(nodeList).orElse(null);
@@ -39,9 +36,11 @@ public class FlowRun {
       throw new NodeFindException("查询起始节点失败");
     }
     FlowContext context = new FlowContext();
+    context.setContent(content);
     while (true) {
       if (currentRunStartNode.type.getValue().equals(NodeType.END_NODE.getValue())) {
-        emitter.complete();
+        sendSseMsg(emitter, "[结束]");
+
         break;
       }
       NodeItem curRunStartNode = flowExecutorCore.getCurrentRunningNode(nodeList, edgeList, currentRunStartNode);
@@ -63,7 +62,7 @@ public class FlowRun {
 
   private void sendSseMsg(SseEmitter emitter, String data) throws IOException {
     emitter.send(SseEmitter.event()
-        .name("flow-log")
+
         .data(data));
   }
 
@@ -84,11 +83,9 @@ public class FlowRun {
       public void onEvent(EventSource eventSource, String id, String type, String data) {
         fullContent.append(data);
         try {
-          // 实时把分片推给前端
           if (isLastUsefulNode) {
-            sendSseMsg(emitter, "LLM分片：" + data);
+            sendSseMsg(emitter, data);
           }
-
         } catch (IOException e) {
           e.printStackTrace();
         }
@@ -114,6 +111,5 @@ public class FlowRun {
   private String getLLMRequestUrl(String apiType, String apiKey, String content) {
     return "http://43.138.198.247:3000/agent/mockConversation?apiType=" + apiType + "&apiKey=" + apiKey + "&content=" + content;
   }
-
 
 }

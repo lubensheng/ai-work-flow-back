@@ -11,10 +11,7 @@ import com.example.aiworkflowback.Flow.Services.impl.FlowConfigServiceImpl;
 import com.example.aiworkflowback.Flow.Services.impl.FlowSaveServiceImpl;
 import com.example.aiworkflowback.Message;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
@@ -40,8 +37,8 @@ public class FlowExecute {
   @Resource
   FlowRun flowRun;
 
-  @PostMapping(value = "/executeFlow/{flowId}", produces = "text/event-stream;charset=UTF-8")
-  public SseEmitter executeFlow(@PathVariable String flowId) {
+  @GetMapping(value = "/executeFlow/{flowId}", produces = "text/event-stream;charset=UTF-8")
+  public SseEmitter executeFlow(@PathVariable String flowId, @RequestParam(required = true) String content) {
     SseEmitter emitter = new SseEmitter(0L);
     pool.execute(() -> {
       try {
@@ -56,7 +53,7 @@ public class FlowExecute {
           p.setEdgeList(edgeList.toArray(EdgeItem[]::new));
           List<NodeItem> nodeItems = JSON.parseArray(flowConfig.getNodeList(), NodeItem.class);
           p.setNodeList(nodeItems.toArray(NodeItem[]::new));
-          FlowExecute.this.flowRun.run(p, emitter);
+          FlowExecute.this.flowRun.run(p, emitter, content);
         }
       } catch (Exception e) {
         try {
