@@ -40,6 +40,7 @@ public class FlowExecute {
   @GetMapping(value = "/executeFlow/{flowId}", produces = "text/event-stream;charset=UTF-8")
   public SseEmitter executeFlow(@PathVariable String flowId, @RequestParam(required = true) String content) {
     SseEmitter emitter = new SseEmitter(0L);
+
     pool.execute(() -> {
       try {
         FlowEntity flow = this.flowSaveService.queryFlowInfoById(flowId);

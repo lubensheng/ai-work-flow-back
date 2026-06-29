@@ -40,11 +40,12 @@ public class FlowRun {
     while (true) {
       if (currentRunStartNode.type.getValue().equals(NodeType.END_NODE.getValue())) {
         sendSseMsg(emitter, "[结束]");
-
         break;
       }
       NodeItem curRunStartNode = flowExecutorCore.getCurrentRunningNode(nodeList, edgeList, currentRunStartNode);
-
+      if (curRunStartNode.getNodeType().getValue().equals(NodeType.CONDITION_NODE.getValue())) {
+        flowExecutorCore.getNextNodeByCondition(curRunStartNode, edgeList, nodeList, context.getContent());
+      }
       String apiType = curRunStartNode.data.nodeConfig.llmApiConfig.getModalType();
       String api = curRunStartNode.data.nodeConfig.llmApiConfig.getApiKey();
 
