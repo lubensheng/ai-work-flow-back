@@ -3,14 +3,17 @@ package com.example.aiworkflowback.Flow.Controller;
 import com.alibaba.fastjson2.JSON;
 import com.example.aiworkflowback.Flow.FlowExecutor.FlowExeInstantParams;
 import com.example.aiworkflowback.Flow.FlowExecutor.FlowRun;
+import com.example.aiworkflowback.Flow.Modal.ConversationModal.Dto.CreateConversationReq;
 import com.example.aiworkflowback.Flow.Modal.Dto.EdgeItem;
 import com.example.aiworkflowback.Flow.Modal.Dto.NodeItem;
 import com.example.aiworkflowback.Flow.Modal.Entity.FlowConfigEntity;
 import com.example.aiworkflowback.Flow.Modal.Entity.FlowEntity;
+import com.example.aiworkflowback.Flow.Services.impl.ConversationServiceImpl;
 import com.example.aiworkflowback.Flow.Services.impl.FlowConfigServiceImpl;
 import com.example.aiworkflowback.Flow.Services.impl.FlowSaveServiceImpl;
 import com.example.aiworkflowback.Message;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -33,6 +36,9 @@ public class FlowExecute {
 
   @Resource
   FlowConfigServiceImpl flowConfigService;
+
+  @Resource
+  ConversationServiceImpl conversationService;
 
   @Resource
   FlowRun flowRun;
@@ -69,5 +75,10 @@ public class FlowExecute {
     emitter.onError(e -> emitter.complete());
     emitter.onTimeout(emitter::complete);
     return emitter;
+  }
+
+  @PostMapping("/createConversationId")
+  public Message<String> createConversationId(@Valid @RequestBody CreateConversationReq req) {
+    return conversationService.createConversationId(req);
   }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.aiworkflowback.Flow.Mapper.ConversationMapper">
+	<insert id="insert">
+		INSERT INTO conversation_main (
+			conversation_id,
+			flow_id,
+			user_id,
+			user_name
+		) VALUE (
+			#{conversationId},
+			#{flowId},
+			#{userId},
+			#{userName}
+		)
+	</insert>
+</mapper>
