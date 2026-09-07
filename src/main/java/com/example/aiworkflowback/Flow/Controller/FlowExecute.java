@@ -64,11 +64,10 @@ public class FlowExecute {
         }
       } catch (Exception e) {
         try {
-          emitter.send(SseEmitter.event().name("flow-execute").data(e.getMessage()));
+          emitter.send(SseEmitter.event().data(e.getMessage()));
         } catch (IOException ex) {
           throw new RuntimeException(ex);
         }
-        throw new RuntimeException(e);
       }
     });
     emitter.onCompletion(emitter::complete);

@@ -43,7 +43,7 @@ public class FlowRun {
         break;
       }
       NodeItem curRunStartNode = flowExecutorCore.getCurrentRunningNode(nodeList, edgeList, currentRunStartNode);
-      if (curRunStartNode.getNodeType().getValue().equals(NodeType.CONDITION_NODE.getValue())) {
+      if (curRunStartNode.getType().getValue().equals(NodeType.CONDITION_NODE.getValue())) {
         flowExecutorCore.getNextNodeByCondition(curRunStartNode, edgeList, nodeList, context.getContent());
       }
       String apiType = curRunStartNode.data.nodeConfig.llmApiConfig.getModalType();
