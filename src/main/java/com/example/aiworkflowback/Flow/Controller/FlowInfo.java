@@ -30,7 +30,10 @@ public class FlowInfo {
   }
 
   @PostMapping("/queryFlowInfo")
-  public Message<ReturnFlowInfo> queryFlowInfo(@RequestBody() QueryFlow queryFlow) {
+  public Message<ReturnFlowInfo> queryFlowInfo(@RequestBody() QueryFlow queryFlow, @RequestHeader("userName") String userName) {
+    if (userName != null && queryFlow.getUserName() == null) {
+      queryFlow.setUserName(userName);
+    }
     return flowSaveService.queryFlowInfo(queryFlow);
   }
 
