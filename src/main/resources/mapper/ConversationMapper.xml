@@ -16,4 +16,7 @@
 			#{userName}
 		)
 	</insert>
+	<select id="queryAllByFlowIdAndUserName">
+		SELECT * FROM conversation_main WHERE flow_id=#{flowId} AND user_name=#{userName}
+	</select>
 </mapper>

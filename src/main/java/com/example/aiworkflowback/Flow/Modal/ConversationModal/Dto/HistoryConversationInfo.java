@@ -1,11 +1,11 @@
 package com.example.aiworkflowback.Flow.Modal.ConversationModal.Dto;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class CreateConversationReq {
-  @NotBlank(message = "flowId必传")
+public class HistoryConversationInfo {
+  public String conversationId;
   public String flowId;
+  public String userId;
   public String userName;
 }

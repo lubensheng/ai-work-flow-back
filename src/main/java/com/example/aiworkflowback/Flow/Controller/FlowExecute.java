@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.example.aiworkflowback.Flow.FlowExecutor.FlowExeInstantParams;
 import com.example.aiworkflowback.Flow.FlowExecutor.FlowRun;
 import com.example.aiworkflowback.Flow.Modal.ConversationModal.Dto.CreateConversationReq;
+import com.example.aiworkflowback.Flow.Modal.ConversationModal.Dto.HistoryConversationInfo;
 import com.example.aiworkflowback.Flow.Modal.Dto.EdgeItem;
 import com.example.aiworkflowback.Flow.Modal.Dto.NodeItem;
 import com.example.aiworkflowback.Flow.Modal.Entity.FlowConfigEntity;
@@ -12,12 +13,15 @@ import com.example.aiworkflowback.Flow.Services.impl.ConversationServiceImpl;
 import com.example.aiworkflowback.Flow.Services.impl.FlowConfigServiceImpl;
 import com.example.aiworkflowback.Flow.Services.impl.FlowSaveServiceImpl;
 import com.example.aiworkflowback.Message;
+import com.example.aiworkflowback.utils.HttpPublicHeaderStringConstants;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -77,7 +81,15 @@ public class FlowExecute {
   }
 
   @PostMapping("/createConversationId")
-  public Message<String> createConversationId(@Valid @RequestBody CreateConversationReq req) {
+  public Message<String> createConversationId(@Valid @RequestBody CreateConversationReq req, @RequestHeader(HttpPublicHeaderStringConstants.userHeaderName) String userName) {
+    if (req.getUserName() == null) {
+      req.setUserName(URLDecoder.decode(userName, StandardCharsets.UTF_8));
+    }
     return conversationService.createConversationId(req);
+  }
+
+  @PostMapping("/getHistoryConversationInfByFlowId/{flowId}")
+  public Message<HistoryConversationInfo[]> getHistoryConversationInfByFlowId(@PathVariable String flowId, @RequestHeader(HttpPublicHeaderStringConstants.userHeaderName) String userName) {
+    return conversationService.getHistoryConversationInfByFlowId(flowId, userName);
   }
 }
